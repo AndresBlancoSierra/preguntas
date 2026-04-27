@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Jenga Questions</title>
+
+  <!-- Highlight.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="app">
+
+    <div class="topbar">
+      <button id="btnAccion">Nueva pregunta</button>
+
+      <div class="score-top">
+        <div class="punto rojo" id="btnRojo">0</div>
+        <div class="separador">|</div>
+        <div class="punto azul" id="btnAzul">0</div>
+      </div>
+    </div>
+
+    <main class="contenido">
+      <pre><code id="codigo" class="language-python"></code></pre>
+    </main>
+
+  </div>
+
+  <!-- highlight -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- data -->
+  <script src="data/preguntasOpLogicos.js"></script>
+  <script src="data/preguntasSalidaCodigo.js"></script>
+  <script src="data/preguntasErrores.js"></script>
+
+  <!-- app -->
+  <script src="app.js"></script>
+
+</body>
+</html>
