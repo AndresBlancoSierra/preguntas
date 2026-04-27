@@ -99,24 +99,44 @@ code {
 .app {
   max-width: 900px;
   margin: 0 auto;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 👈 centra TODO vertical */
+  align-items: center;     /* 👈 centra horizontal */
 }
 
-/* TOPBAR */
+/* TOPBAR no crece */
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  padding: 20px 0; /* 👈 sin padding lateral */
+  padding: 20px 0;
+  flex-shrink: 0;
 }
 
-/* CONTENIDO */
+/* CONTENIDO ocupa TODO el resto */
 .contenido {
+  width: 100%;
+
   display: flex;
   justify-content: center;
 }
 
-/* BLOQUE */
+/* BLOQUE DE CÓDIGO */
 pre {
   width: 100%;
 }
+
+.controles {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 30px; /* espacio con el código */
+}
+
