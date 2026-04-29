@@ -36,7 +36,33 @@ body {
   align-items: center;
   gap: 15px;
 }
+/* BOTONES GENERALES */
+/* botón sigue igual base */
+.boton {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease;
+}
+
+.boton:hover {
+  background: #2a2a2a;
+}
+
+/* imagen dentro del botón */
+.boton img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  pointer-events: none; /* 👈 IMPORTANTE */
+}
 /* CÍRCULOS */
 .punto {
   width: 40px;
@@ -140,3 +166,7 @@ pre {
   margin-bottom: 30px; /* espacio con el código */
 }
 
+.lenguajes {
+  display: flex;
+  gap: 30px; /* 👈 espacio entre python y java */
+}

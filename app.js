@@ -1,24 +1,36 @@
 let preguntaActual = null;
 let mostrandoRespuesta = false;
+let lenguajeActual = null;
+
 let puntosRojo = 0;
 let puntosAzul = 0;
 
-// unir todos los bancos
-const todasPreguntas = [
+// unir bancos
+const preguntasPython = [
   ...preguntasOpLogicos,
   ...preguntasSalidaCodigo,
   ...preguntasErrores
 ];
 
-// esperar a que cargue el DOM
+const preguntasJava = [
+  ...preguntasOpLogicosJava,
+  ...preguntasSalidaCodigoJava,
+  ...preguntasErroresJava
+];
+
+// DOM listo
 document.addEventListener("DOMContentLoaded", () => {
 
-  const btn = document.getElementById("btnAccion");
+  const btnPython = document.getElementById("btnPython");
+  const btnJava = document.getElementById("btnJava");
+
   const btnRojo = document.getElementById("btnRojo");
   const btnAzul = document.getElementById("btnAzul");
 
-  // 👉 BOTÓN PRINCIPAL (TE FALTABA ESTO)
-  btn.addEventListener("click", manejarBoton);
+  // 🔘 BOTONES LENGUAJE
+
+  btnPython.addEventListener("click", () => manejarBoton("python"));
+  btnJava.addEventListener("click", () => manejarBoton("java"));
 
   // 🔴 ROJO
   btnRojo.addEventListener("click", () => {
@@ -52,30 +64,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// lógica del botón único
-function manejarBoton() {
-  const btn = document.getElementById("btnAccion");
+// lógica principal
+function manejarBoton(lenguaje) {
+
+  // si cambia de lenguaje → reinicia estado
+  if (lenguajeActual !== lenguaje) {
+    lenguajeActual = lenguaje;
+    preguntaActual = null;
+    mostrandoRespuesta = false;
+  }
 
   if (!preguntaActual || mostrandoRespuesta) {
-    nuevaPregunta();
+    nuevaPregunta(lenguaje);
     mostrandoRespuesta = false;
-    btn.textContent = "Respuesta";
   } else {
     mostrarRespuesta();
     mostrandoRespuesta = true;
-    btn.textContent = "Pregunta";
   }
 }
 
-// generar nueva pregunta
-function nuevaPregunta() {
-  const i = Math.floor(Math.random() * todasPreguntas.length);
-  preguntaActual = todasPreguntas[i];
+// generar pregunta
+function nuevaPregunta(lenguaje) {
+  const banco = lenguaje === "python" ? preguntasPython : preguntasJava;
+
+  const i = Math.floor(Math.random() * banco.length);
+  preguntaActual = banco[i];
 
   const codeBlock = document.getElementById("codigo");
 
   limpiarHighlight(codeBlock);
 
+  codeBlock.className = lenguaje === "python" ? "language-python" : "language-java";
   codeBlock.textContent = ">>> " + preguntaActual.pregunta;
 
   hljs.highlightElement(codeBlock);
@@ -94,10 +113,9 @@ function mostrarRespuesta() {
   hljs.highlightElement(codeBlock);
 }
 
-// limpiar pantalla al sumar punto
+// reset pantalla
 function resetPantalla() {
   const codeBlock = document.getElementById("codigo");
-  const btn = document.getElementById("btnAccion");
 
   codeBlock.textContent = "";
 
@@ -105,17 +123,15 @@ function resetPantalla() {
 
   preguntaActual = null;
   mostrandoRespuesta = false;
-
-  btn.textContent = "Nueva pregunta";
 }
 
-// limpiar highlight.js correctamente
+// limpiar highlight correctamente
 function limpiarHighlight(el) {
   el.classList.remove("hljs");
   el.removeAttribute("data-highlighted");
 }
 
-// pequeña animación al sumar punto
+// animación puntos
 function animar(el) {
   el.style.transform = "scale(1.2)";
   setTimeout(() => {
