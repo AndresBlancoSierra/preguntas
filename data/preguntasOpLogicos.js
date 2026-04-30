@@ -44,6 +44,52 @@ const preguntasOpLogicos = [
 
   { pregunta: "not (5 > 3 and 2 < 4)", respuesta: "False" },
 
-  { pregunta: "(5 > 3) and (2 > 4)", respuesta: "False" }
+  { pregunta: "(5 > 3) and (2 > 4)", respuesta: "False" },
+
+  // NUEVAS 30
+  { pregunta: "True or False and False", respuesta: "True" },
+  { pregunta: "(True or False) and False", respuesta: "False" },
+
+  { pregunta: "not (False and True)", respuesta: "True" },
+  { pregunta: "not False and True", respuesta: "True" },
+
+  { pregunta: "3 > 2 and 5 < 10", respuesta: "True" },
+  { pregunta: "3 > 2 and 5 > 10", respuesta: "False" },
+
+  { pregunta: "8 == 8 or 2 > 5", respuesta: "True" },
+  { pregunta: "8 != 8 or 2 > 5", respuesta: "False" },
+
+  { pregunta: "not (3 == 3)", respuesta: "False" },
+  { pregunta: "not (3 != 3)", respuesta: "True" },
+
+  { pregunta: "'a' == 'A'", respuesta: "False" },
+  { pregunta: "'Python' == 'python'", respuesta: "False" },
+
+  { pregunta: "4 <= 4 and 6 >= 6", respuesta: "True" },
+  { pregunta: "4 < 4 or 6 > 6", respuesta: "False" },
+
+  { pregunta: "True and (False or True)", respuesta: "True" },
+  { pregunta: "False or (False and True)", respuesta: "False" },
+
+  { pregunta: "not True or False", respuesta: "False" },
+  { pregunta: "not (True or False)", respuesta: "False" },
+
+  { pregunta: "bool(0)", respuesta: "False" },
+  { pregunta: "bool(1)", respuesta: "True" },
+
+  { pregunta: "bool([])", respuesta: "False" },
+  { pregunta: "bool([1])", respuesta: "True" },
+
+  { pregunta: "bool(None)", respuesta: "False" },
+  { pregunta: "bool(True)", respuesta: "True" },
+
+  { pregunta: "1 < 2 < 3", respuesta: "True" },
+  { pregunta: "1 < 2 > 3", respuesta: "False" },
+
+  { pregunta: "not (1 < 2)", respuesta: "False" },
+  { pregunta: "not (1 > 2)", respuesta: "True" },
+
+  { pregunta: "True and not False", respuesta: "True" },
+  { pregunta: "False or not True", respuesta: "False" }
 
 ];

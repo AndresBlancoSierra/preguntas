@@ -1,24 +1,36 @@
 let preguntaActual = null;
 let mostrandoRespuesta = false;
-let lenguajeActual = null;
 
 let puntosRojo = 0;
 let puntosAzul = 0;
 
-// unir bancos
-const preguntasPython = [
+let modo = "python"; // python | java
+
+// 🔀 función para mezclar
+function mezclar(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+// 📦 bancos base
+const preguntasPythonBase = [
   ...preguntasOpLogicos,
-  ...preguntasSalidaCodigo,
-  ...preguntasErrores
+  ...preguntasSalidaCodigo
 ];
 
-const preguntasJava = [
+const preguntasJavaBase = [
   ...preguntasOpLogicosJava,
-  ...preguntasSalidaCodigoJava,
-  ...preguntasErroresJava
+  ...preguntasSalidaCodigoJava
 ];
 
-// DOM listo
+// 🔀 bancos mezclados
+let preguntasPython = mezclar(preguntasPythonBase);
+let preguntasJava = mezclar(preguntasJavaBase);
+
+// 📍 índices
+let indicePython = 0;
+let indiceJava = 0;
+
+// 🚀 DOM READY
 document.addEventListener("DOMContentLoaded", () => {
 
   const btnPython = document.getElementById("btnPython");
@@ -27,12 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnRojo = document.getElementById("btnRojo");
   const btnAzul = document.getElementById("btnAzul");
 
-  // 🔘 BOTONES LENGUAJE
+  // 🐍 BOTÓN PYTHON
+  btnPython.addEventListener("click", () => {
+    modo = "python";
+    manejarBoton(btnPython);
+  });
 
-  btnPython.addEventListener("click", () => manejarBoton("python"));
-  btnJava.addEventListener("click", () => manejarBoton("java"));
+  // ☕ BOTÓN JAVA
+  btnJava.addEventListener("click", () => {
+    modo = "java";
+    manejarBoton(btnJava);
+  });
 
-  // 🔴 ROJO
+  // 🔴 SUMAR / RESTAR
   btnRojo.addEventListener("click", () => {
     puntosRojo++;
     btnRojo.textContent = puntosRojo;
@@ -47,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     animar(btnRojo);
   });
 
-  // 🔵 AZUL
+  // 🔵 SUMAR / RESTAR
   btnAzul.addEventListener("click", () => {
     puntosAzul++;
     btnAzul.textContent = puntosAzul;
@@ -64,18 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// lógica principal
-function manejarBoton(lenguaje) {
-
-  // si cambia de lenguaje → reinicia estado
-  if (lenguajeActual !== lenguaje) {
-    lenguajeActual = lenguaje;
-    preguntaActual = null;
-    mostrandoRespuesta = false;
-  }
-
+// 🎮 LÓGICA BOTÓN
+function manejarBoton(btn) {
   if (!preguntaActual || mostrandoRespuesta) {
-    nuevaPregunta(lenguaje);
+    nuevaPregunta();
     mostrandoRespuesta = false;
   } else {
     mostrarRespuesta();
@@ -83,24 +94,46 @@ function manejarBoton(lenguaje) {
   }
 }
 
-// generar pregunta
-function nuevaPregunta(lenguaje) {
-  const banco = lenguaje === "python" ? preguntasPython : preguntasJava;
+// 🧠 NUEVA PREGUNTA (SIN REPETICIÓN)
+function nuevaPregunta() {
+  let lista, indice;
 
-  const i = Math.floor(Math.random() * banco.length);
-  preguntaActual = banco[i];
+  if (modo === "python") {
+    lista = preguntasPython;
+    indice = indicePython;
+  } else {
+    lista = preguntasJava;
+    indice = indiceJava;
+  }
+
+  // obtener pregunta
+  preguntaActual = lista[indice];
+
+  // avanzar índice
+  if (modo === "python") {
+    indicePython++;
+    if (indicePython >= lista.length) {
+      preguntasPython = mezclar(preguntasPythonBase);
+      indicePython = 0;
+    }
+  } else {
+    indiceJava++;
+    if (indiceJava >= lista.length) {
+      preguntasJava = mezclar(preguntasJavaBase);
+      indiceJava = 0;
+    }
+  }
 
   const codeBlock = document.getElementById("codigo");
 
   limpiarHighlight(codeBlock);
 
-  codeBlock.className = lenguaje === "python" ? "language-python" : "language-java";
   codeBlock.textContent = ">>> " + preguntaActual.pregunta;
 
   hljs.highlightElement(codeBlock);
 }
 
-// mostrar respuesta
+// 📢 MOSTRAR RESPUESTA
 function mostrarRespuesta() {
   if (!preguntaActual) return;
 
@@ -113,7 +146,7 @@ function mostrarRespuesta() {
   hljs.highlightElement(codeBlock);
 }
 
-// reset pantalla
+// 🔄 RESET PANTALLA
 function resetPantalla() {
   const codeBlock = document.getElementById("codigo");
 
@@ -125,13 +158,13 @@ function resetPantalla() {
   mostrandoRespuesta = false;
 }
 
-// limpiar highlight correctamente
+// 🧹 LIMPIAR HIGHLIGHT
 function limpiarHighlight(el) {
   el.classList.remove("hljs");
   el.removeAttribute("data-highlighted");
 }
 
-// animación puntos
+// ✨ ANIMACIÓN
 function animar(el) {
   el.style.transform = "scale(1.2)";
   setTimeout(() => {
