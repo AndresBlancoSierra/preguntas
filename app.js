@@ -4,14 +4,14 @@ let mostrandoRespuesta = false;
 let puntosRojo = 0;
 let puntosAzul = 0;
 
-let modo = "python"; // python | java
+let modo = "python";
 
-// 🔀 función para mezclar
+// mezclar array
 function mezclar(array) {
   return [...array].sort(() => Math.random() - 0.5);
 }
 
-// 📦 bancos base
+// bancos base
 const preguntasPythonBase = [
   ...preguntasOpLogicos,
   ...preguntasSalidaCodigo
@@ -22,15 +22,15 @@ const preguntasJavaBase = [
   ...preguntasSalidaCodigoJava
 ];
 
-// 🔀 bancos mezclados
+// bancos mezclados
 let preguntasPython = mezclar(preguntasPythonBase);
 let preguntasJava = mezclar(preguntasJavaBase);
 
-// 📍 índices
+// indices
 let indicePython = 0;
 let indiceJava = 0;
 
-// 🚀 DOM READY
+// DOM ready
 document.addEventListener("DOMContentLoaded", () => {
 
   const btnPython = document.getElementById("btnPython");
@@ -39,19 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnRojo = document.getElementById("btnRojo");
   const btnAzul = document.getElementById("btnAzul");
 
-  // 🐍 BOTÓN PYTHON
+  // boton python
   btnPython.addEventListener("click", () => {
     modo = "python";
-    manejarBoton(btnPython);
+    manejarBoton();
   });
 
-  // ☕ BOTÓN JAVA
+  // boton java
   btnJava.addEventListener("click", () => {
     modo = "java";
-    manejarBoton(btnJava);
+    manejarBoton();
   });
 
-  // 🔴 SUMAR / RESTAR
+  // puntos rojo
   btnRojo.addEventListener("click", () => {
     puntosRojo++;
     btnRojo.textContent = puntosRojo;
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     animar(btnRojo);
   });
 
-  // 🔵 SUMAR / RESTAR
+  // puntos azul
   btnAzul.addEventListener("click", () => {
     puntosAzul++;
     btnAzul.textContent = puntosAzul;
@@ -83,8 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// 🎮 LÓGICA BOTÓN
-function manejarBoton(btn) {
+// logica del boton
+function manejarBoton() {
   if (!preguntaActual || mostrandoRespuesta) {
     nuevaPregunta();
     mostrandoRespuesta = false;
@@ -94,7 +94,7 @@ function manejarBoton(btn) {
   }
 }
 
-// 🧠 NUEVA PREGUNTA (SIN REPETICIÓN)
+// nueva pregunta sin repeticion
 function nuevaPregunta() {
   let lista, indice;
 
@@ -106,10 +106,8 @@ function nuevaPregunta() {
     indice = indiceJava;
   }
 
-  // obtener pregunta
   preguntaActual = lista[indice];
 
-  // avanzar índice
   if (modo === "python") {
     indicePython++;
     if (indicePython >= lista.length) {
@@ -128,12 +126,13 @@ function nuevaPregunta() {
 
   limpiarHighlight(codeBlock);
 
-  codeBlock.textContent = ">>> " + preguntaActual.pregunta;
+  codeBlock.textContent =
+    `[${preguntaActual.tipo.toUpperCase()}]\n>>> ${preguntaActual.pregunta}`;
 
   hljs.highlightElement(codeBlock);
 }
 
-// 📢 MOSTRAR RESPUESTA
+// mostrar respuesta
 function mostrarRespuesta() {
   if (!preguntaActual) return;
 
@@ -146,7 +145,7 @@ function mostrarRespuesta() {
   hljs.highlightElement(codeBlock);
 }
 
-// 🔄 RESET PANTALLA
+// reset pantalla
 function resetPantalla() {
   const codeBlock = document.getElementById("codigo");
 
@@ -158,13 +157,13 @@ function resetPantalla() {
   mostrandoRespuesta = false;
 }
 
-// 🧹 LIMPIAR HIGHLIGHT
+// limpiar highlight
 function limpiarHighlight(el) {
   el.classList.remove("hljs");
   el.removeAttribute("data-highlighted");
 }
 
-// ✨ ANIMACIÓN
+// animacion puntos
 function animar(el) {
   el.style.transform = "scale(1.2)";
   setTimeout(() => {
