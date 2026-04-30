@@ -132,7 +132,7 @@ function nuevaPregunta() {
   hljs.highlightElement(codeBlock);
 }
 
-// mostrar respuesta
+// mostrar respuesta + explicacion
 function mostrarRespuesta() {
   if (!preguntaActual) return;
 
@@ -140,7 +140,13 @@ function mostrarRespuesta() {
 
   limpiarHighlight(codeBlock);
 
+  // respuesta
   codeBlock.textContent += "\n" + preguntaActual.respuesta;
+
+  // explicacion (solo si existe)
+  if (preguntaActual.explicacion) {
+    codeBlock.textContent += "\n\n" + "→ " + preguntaActual.explicacion;
+  }
 
   hljs.highlightElement(codeBlock);
 }
